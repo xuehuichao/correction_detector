@@ -27,7 +27,7 @@ It should print something like this.
 [('X', 1, 4, 'love')]
 
 
-I trained the models for correction extraction and error type selection on FCE corpus http://ilexir.co.uk/applications/clc-fce-dataset/
+I trained the models for correction extraction and error type selection on FCE corpus http://ilexir.co.uk/applications/clc-fce-dataset/. Please refer to their licence terms before using this software package.
 
 
 ##References
