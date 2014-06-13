@@ -11,7 +11,7 @@ from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
 import editdistalign
 
-model_path = '.'
+model_path = '.'                        # Make sure this points to a directory where the model files (selector.model, merger.model, wordsEn.txt) are stored.
 
 selector_model_path = path.join(model_path, 'selector.model')
 merger_model_path = path.join(model_path, 'merger.model')
