@@ -3,34 +3,41 @@
 The package compares an input sentence with its revision and figure out what errors have been corrected.
 
 ##Installation
-Install the MaxEnt classifier at http://homepages.inf.ed.ac.uk/lzhang10/maxent_toolkit.html
-
-This is the maxent classifier I used in my package. Please make sure that you installed the Python extension.
-
 ###Prerequisites
+My package uses the Maximum Entropy classifier which can be found [HERE](http://homepages.inf.ed.ac.uk/lzhang10/maxent_toolkit.html). Please make sure that you installed the Python extension. 
 
 ###Installing my code
-Suppose you are currently in directory /home/XXX/softwares, and you would like to install my packages in /home/XXX/softwares/wrapped_up
-
-tar xzvf wrapped_up.tar.gz
-cd wrapped_up/editdistalign   ## This is my edit distance algorithm, written in C
-sudo python setup.py install  ## to install the edit-distance package on your computer. If you are installing this package on the departmental machine, please make sure 1) remove "sudo" 2) your PYTHONPATH was set correctly
-cd ../../
+First, please download my code with [git](http://git-scm.com/). First please compile my editdistalign package, which is a C implementation of the edit distance algorithm.
+	
+	./compile_editdistalign.sh
 
 Now you should be good to go. You may test running my program:
 
-python wrapped_up/corr_ext.py 
+	python corr_ext.py 
 
 It should print something like this.
 
-[('RV', 1, 2, 'love')]
-[('X', 1, 4, 'love')]
+	[('RV', 1, 2, 'love')]
+	[('X', 1, 4, 'love')]
 
 
-I trained the models for correction extraction and error type selection on FCE corpus http://ilexir.co.uk/applications/clc-fce-dataset/. Please refer to their licence terms before using this software package.
+##Citing the Correction Detector
+
+The detector was described in our paper in ACL 2014. Please feel free to use the following citation information:
+
+    @inproceedings{XueAndHwaACL2014,
+      title={Improved Correction Detection in Revised {ESL} Sentences},
+      author={Xue, Huichao and Hwa, Rebecca},
+      booktitle={Proceedings of the 52nd Annual Meeting of the Association for Computational Linguistics (ACL)},
+      year={2014},
+      address   = {Baltimore, MD, USA},
+      organization={Association for Computational Linguistics}
+    }
+	
+Note that I trained the models for correction extraction and error type selection on FCE corpus [Here](http://ilexir.co.uk/applications/clc-fce-dataset/). Please review their licence terms before using this software package.
 
 
 ##References
-* Yannakoudakis, H., Briscoe, T., & Medlock, B. (2011, June). A new dataset and method for automatically grading ESOL texts. In Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics: Human Language Technologies-Volume 1 (pp. 180-189). Association for Computational Linguistics.
+1. Yannakoudakis, H., Briscoe, T., & Medlock, B. (2011, June). A new dataset and method for automatically grading ESOL texts. In Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics: Human Language Technologies-Volume 1 (pp. 180-189). Association for Computational Linguistics.
 Chicago	
-* Swanson, B., & Yamangil, E. (2012, June). Correction detection and error type selection as an ESL educational aid. In Proceedings of the 2012 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (pp. 357-361). Association for Computational Linguistics.
+2. Swanson, B., & Yamangil, E. (2012, June). Correction detection and error type selection as an ESL educational aid. In Proceedings of the 2012 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (pp. 357-361). Association for Computational Linguistics.

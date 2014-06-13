@@ -6,13 +6,16 @@ Output: list of tuples (error_type, start_ind, end_ind, corrected_into)
 
 import maxent
 import nltk
+from os import path
 from nltk.corpus import wordnet
 from nltk.stem import WordNetLemmatizer
 import editdistalign
 
-selector_model_path = 'wrapped_up/selector.model'
-merger_model_path = 'wrapped_up/merger.model'
-eng_dict_word_list = 'wrapped_up/wordsEn.txt'
+model_path = '.'
+
+selector_model_path = path.join(model_path, 'selector.model')
+merger_model_path = path.join(model_path, 'merger.model')
+eng_dict_word_list = path.join(model_path, 'wordsEn.txt')
 
 wnl = WordNetLemmatizer()
 all_pos = [wordnet.ADJ,
