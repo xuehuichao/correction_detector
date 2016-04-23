@@ -20,10 +20,8 @@ This server can figure that out, and reasons too. Just send an HTTP request to i
 Starting the server is easy with docker
 
 ```sh
-# git clone https://github.com/xuehuichao/correction_detector.git
-# cd correction_detector
-# docker build -t corr_det .
-# docker run -d -p 8085:8085 corr_det
+# docker pull xuehuichao/correction_detector
+# docker run -d -p 8085:8085 xuehuichao/correction_detector
 ```
 
 ## Intro
