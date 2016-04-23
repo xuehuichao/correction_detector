@@ -2,6 +2,8 @@
 
 The package compares an input sentence with its revision and figure out what errors have been corrected. We described the system in our [ACL 2014's paper](http://acl2014.org/acl2014/P14-2/pdf/P14-2098.pdf). Our system improved over a previous system by Swanson and Yamagil (2012).
 
+Please visit my Demo [HERE](http://people.cs.pitt.edu/~hux10/softwares.html).
+
 ##Installation
 ###Prerequisites
 My package uses the Maximum Entropy classifier which can be found [HERE](http://homepages.inf.ed.ac.uk/lzhang10/maxent_toolkit.html). Please make sure that you installed the Python extension. 
