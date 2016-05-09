@@ -2,7 +2,7 @@
 
 What modifications were made to a sentence?
 
-	![Quickly figuring out what modificatios occured to a sentence.](demo.gif)
+![Quickly figuring out what modificatios occured to a sentence.](demo.gif)
 
 
 This server figures that out. Just send a json-rpc request to it.
