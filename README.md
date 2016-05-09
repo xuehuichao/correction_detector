@@ -1,6 +1,6 @@
 # Correction Detector
 
-Wondering what edits were made to a sentence, and why? This server figures that out.
+Want to summarize your revisions to a sentence?
 
 ![Quickly figuring out what modificatios occured to a sentence.](demo.gif)
 
