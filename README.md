@@ -29,39 +29,8 @@ The package compares an input sentence with its revision and figure out what err
 
 Please visit my Demo [HERE](http://people.cs.pitt.edu/~hux10/softwares.html).
 
-##Local Installation
-You may also use my code as a library.
 
-###Prerequisites
-My package uses the Maximum Entropy classifier which can be found [HERE](http://homepages.inf.ed.ac.uk/lzhang10/maxent_toolkit.html). Please make sure that you installed the Python extension. 
-
-###Installing my code
-Please check out my code with [git](http://git-scm.com/). 
-
-	git clone https://github.com/xuehuichao/correction_detector.git
-
-To install, first please compile my *editdistalign* package, which is a C implementation of the edit distance algorithm.
-	
-	./compile_editdistalign.sh
-
-Now you should be good to go.
-
-####Running my program
-You may test running my program:
-
-	python corr_ext.py 
-
-My sample program tries to detect corrections between two pairs of sentences
-
-	print ExtractCorrections('I like this .'.split(), 'I love this .'.split())
-	print ExtractCorrections('I do not like this .'.split(), 'I love this .'.split())
-
-The program should print something like this.
-
-	[('RV', 1, 2, 'love')]
-	[('X', 1, 4, 'love')]
-
-##Citing the Correction Detector
+## Citing the Correction Detector
 
 The detector was described in our paper in ACL 2014. Please feel free to use the following citation information:
 
