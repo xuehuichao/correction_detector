@@ -13,6 +13,8 @@ RUN perl -pi -e 's#DEFAULT_URL = .*#DEFAULT_URL = "http://nltk.github.com/nltk_d
 RUN python -m nltk.downloader wordnet
 RUN python -m nltk.downloader maxent_treebank_pos_tagger
 
+RUN apt-get install -y python-werkzeug
+
 ADD *.py /corr_det/
 ADD *.txt /corr_det/
 ADD *.c /corr_det/

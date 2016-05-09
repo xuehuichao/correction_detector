@@ -12,10 +12,11 @@ This server can figure that out, and reasons too. Just send an HTTP request to i
 
 
 ```sh
-# curl 'localhost:8085/?revised_sentence=This+sentence+might+have+contained+some+errors.&orig_words=This%2Bsentense%2Bmight%2Bhave%2Bcontain%2Berror%2B.'
+$ curl --data-binary '{"id" : 0, "jsonrpc" : "2.0", "method" : "CorrDet", "params" : ["This sentence might have contain error.", "This sentence might have some errors."]}' -H 'content-type:text/plain;' http://127.0.0.1:8085
 ```
 
-	[["This", null, null], ["sentense", "sentence", "spelling"], ["might have", null, null], ["contain", "contained", "wrong verb tense"], ["error", "some errors", "needs replacing"], [".", null, null]]
+	{"jsonrpc": "2.0", "result": [["This sentence might have", null, null], ["contain", "some", "needs replacing"], ["error", "errors", "wrong noun form"], [".", null, null]], "id": 0}
+
 
 Starting the server is easy with docker
 

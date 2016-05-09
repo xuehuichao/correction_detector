@@ -6,6 +6,10 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer, HTTPServer
 from SocketServer import ThreadingMixIn
 import json
 import traceback
+from werkzeug.wrappers import Request, Response
+from werkzeug.serving import run_simple
+from jsonrpc import JSONRPCResponseManager, dispatcher
+
 
 class AnnotatableSequence(object):
     def __init__(self, sequence):
@@ -138,64 +142,22 @@ def Tokenize(rev_sent):
         rev_sent = rev_sent[:-1]
     return rev_sent.split() + suf
 
-def HandleWebRequest(orig_words, revised_sentence):
+
+
+@dispatcher.add_method
+def CorrDet(orig_sentence, revised_sentence):
+    orig_words = Tokenize(orig_sentence)
     revised_into_words = Tokenize(revised_sentence)
     return ExtractChunks(orig_words, revised_into_words)
 
-def Testing():
-    import pprint
 
-    print GetErrorDesc('MV')
-    print GetErrorDesc('UJ')
-    print GetErrorDesc('X')
-    print GetErrorDesc('BAD')
-    
-    pprint.pprint(HandleWebRequest(
-        ["This", "sentense", "might", "have", "contain", "error", "."],
-        "This sentence may have errors.",
-        ))
-
-class HTTPRequestHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == '/favicon.ico':
-            self.send_response(404)
-            return
-        try:
-            parsed_request = urlparse.urlparse(self.path)
-            parameters = urlparse.parse_qs(parsed_request.query)
-
-            orig_words = parameters['orig_words'][0].split('+')
-            revised_sentence = parameters['revised_sentence'][0]
-
-            print orig_words, revised_sentence
-            result = HandleWebRequest(orig_words, revised_sentence)
-            self.send_response(200)
-            self.send_header("Content-type", 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-            self.wfile.write(json.dumps(result))
-
-        except Exception as e:
-            print "error handling request %s. %s. " % (self.path, e)
-            traceback.print_exc(file=sys.stdout)
-            self.send_response(400)
-
-class MultiThreadedHTTPServer(ThreadingMixIn, HTTPServer):
-    pass
-
-def StartServer():
-    ip = "0.0.0.0"
-    port = 8085
-    server = MultiThreadedHTTPServer((ip, port), HTTPRequestHandler)
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        pass
+@Request.application
+def application(request):
+    # Dispatcher is dictionary {<method_name>: callable}
+    response = JSONRPCResponseManager.handle(
+        request.data, dispatcher)
+    return Response(response.json, mimetype='application/json')
 
 
-def main():
-    # Testing()
-    StartServer()
-
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    run_simple('localhost', 8085, application)
