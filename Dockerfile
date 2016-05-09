@@ -1,12 +1,6 @@
 FROM ubuntu:14.04
 MAINTAINER Huichao Xue
 
-ADD *.py /corr_det/
-ADD *.txt /corr_det/
-ADD *.c /corr_det/
-ADD *.sh /corr_det/
-ADD *.model /corr_det/
-
 RUN apt-get update && apt-get install -y git build-essential python git python-nltk libboost-dev gfortran byacc bison python-dev python-scipy python-numpy
 
 WORKDIR /maxent
@@ -18,6 +12,12 @@ RUN python setup.py build && python setup.py install
 RUN perl -pi -e 's#DEFAULT_URL = .*#DEFAULT_URL = "http://nltk.github.com/nltk_data/"#' /usr/lib/python2.7/dist-packages/nltk/downloader.py
 RUN python -m nltk.downloader wordnet
 RUN python -m nltk.downloader maxent_treebank_pos_tagger
+
+ADD *.py /corr_det/
+ADD *.txt /corr_det/
+ADD *.c /corr_det/
+ADD *.sh /corr_det/
+ADD *.model /corr_det/
 
 WORKDIR /corr_det
 RUN ./compile_editdistalign.sh
