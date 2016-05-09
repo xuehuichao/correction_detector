@@ -1,18 +1,13 @@
 #Correction Detector
 
-What modifications were after editing
+What modifications were made to a sentence?
 
-	This sentence might have contain error.
-	
-into
+	This sentence might have contain error. => This sentence might have some errors.
 
-	This sentence might have some errors.
-
-This server can figure that out, and reasons too. Just send an HTTP request to it.
-
+This server figures that out. Just send a json-rpc request to it.
 
 ```sh
-$ curl --data-binary '{"id" : 0, "jsonrpc" : "2.0", "method" : "CorrDet", "params" : ["This sentence might have contain error.", "This sentence might have some errors."]}' -H 'content-type:text/plain;' http://127.0.0.1:8085
+$ curl --data-binary '{"params" : ["This sentence might have contain error.", "This sentence might have some errors."], "id" : 0, "jsonrpc" : "2.0", "method" : "CorrDet"}' -H 'content-type:text/plain;' http://127.0.0.1:8085
 ```
 
 	{"jsonrpc": "2.0", "result": [["This sentence might have", null, null], ["contain", "some", "needs replacing"], ["error", "errors", "wrong noun form"], [".", null, null]], "id": 0}
