@@ -1,26 +1,29 @@
-#Correction Detector
+# Correction Detector
 
 Wondering what edits were made to a sentence, and why? This server figures that out.
 
 ![Quickly figuring out what modificatios occured to a sentence.](demo.gif)
 
-Just send a json-rpc request to it.
+### Install
 
+Starting the server in two lines, with [Docker](http://www.docker.com)
+
+```sh
+$ docker pull xuehuichao/correction_detector
+$ docker run -d -p 8085:8085 xuehuichao/correction_detector
+```
+
+### Usage
+
+Experience the demo above on your local machine, by opening `demo.html` in your faviorate browser.
+
+Compare two sentences with a json-rpc request. The server will respond with how many corrections were made, and the revision types.
 ```sh
 $ curl --data-binary '{"params" : ["This sentence might have contain error.", "This sentence might have some errors."], "id" : 0, "jsonrpc" : "2.0", "method" : "CorrDet"}' -H 'content-type:text/plain;' http://127.0.0.1:8085
+
+{"jsonrpc": "2.0", "result": [["This sentence might have", null, null], ["contain", "some", "needs replacing"], ["error", "errors", "wrong noun form"], [".", null, null]], "id": 0}
 ```
 
-It responds that two corrections were made.
-
-	{"jsonrpc": "2.0", "result": [["This sentence might have", null, null], ["contain", "some", "needs replacing"], ["error", "errors", "wrong noun form"], [".", null, null]], "id": 0}
-
-
-Starting the server is easy with [Docker](http://www.docker.com)
-
-```sh
-# docker pull xuehuichao/correction_detector
-# docker run -d -p 8085:8085 xuehuichao/correction_detector
-```
 
 ## Intro
 
