@@ -1,11 +1,10 @@
 #Correction Detector
 
-What modifications were made to a sentence?
+Wondering what edits were made to a sentence, and why? This server figures that out.
 
 ![Quickly figuring out what modificatios occured to a sentence.](demo.gif)
 
-
-This server figures that out. Just send a json-rpc request to it.
+Just send a json-rpc request to it.
 
 ```sh
 $ curl --data-binary '{"params" : ["This sentence might have contain error.", "This sentence might have some errors."], "id" : 0, "jsonrpc" : "2.0", "method" : "CorrDet"}' -H 'content-type:text/plain;' http://127.0.0.1:8085
@@ -16,7 +15,7 @@ It responds that two corrections were made.
 	{"jsonrpc": "2.0", "result": [["This sentence might have", null, null], ["contain", "some", "needs replacing"], ["error", "errors", "wrong noun form"], [".", null, null]], "id": 0}
 
 
-Starting the server is easy with docker
+Starting the server is easy with [Docker](http://www.docker.com)
 
 ```sh
 # docker pull xuehuichao/correction_detector
