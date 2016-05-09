@@ -156,7 +156,15 @@ def application(request):
     # Dispatcher is dictionary {<method_name>: callable}
     response = JSONRPCResponseManager.handle(
         request.data, dispatcher)
-    return Response(response.json, mimetype='application/json')
+    rv = Response(response.json, mimetype='application/json')
+
+    rv.headers.add('Access-Control-Allow-Origin', '*')
+    rv.headers.add('Access-Control-Allow-Methods',
+                   'GET,PUT,POST,DELETE,PATCH')
+    rv.headers.add('Access-Control-Allow-Headers',
+                   'Content-Type, Authorization')    
+    
+    return rv
 
 
 if __name__ == '__main__':

@@ -2,7 +2,8 @@
 
 What modifications were made to a sentence?
 
-	This sentence might have contain error. => This sentence might have some errors.
+	![Quickly figuring out what modificatios occured to a sentence.](demo.gif)
+
 
 This server figures that out. Just send a json-rpc request to it.
 
