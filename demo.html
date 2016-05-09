@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <title>Correction Detector Demo</title>
+    <link href="http://www.getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/examples/starter-template/starter-template.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script>
+     App = angular.module('corr_det_app', []);
+
+     server_root = "http://www.xuehuichao.com:8085/";
+
+     App.factory('CorrectionDetector', function($http) {
+       return {
+	 DetectChunks : function(orig_words, rev_text, setchunk_func) {
+	   $http.get(server_root, {
+	     params : {
+	       'orig_words': orig_words.join("+"),
+	       'revised_sentence' : rev_text,
+	     }
+	   }).success(setchunk_func);
+	 }
+       }
+     });
+
+     App.factory('RandSentPicker', function() {
+       return {
+	 PickRandomSentence : function() {
+	   var sent_pool = [
+	     "I go to the store and I bought milk .",
+	     "I will eat fish for dinner and drank milk with my dinner .",
+	     "Matt like fish .",
+	     "Anna and Mike is going skiing .",
+	     "Anna and Pat are married and he has been married for 20 years .",
+	     "Everyone forgot their notebook .",
+	     "I don't want no pudding .",
+	     "I can't hardly believe .", 
+	     "Jumped high .",
+	     "I went to the store I got milk and cookies .",]
+
+	   return sent_pool[Math.floor(Math.random() * sent_pool.length)].split(" ");
+	 }
+       }
+     });
+
+
+     App.controller('CorrDetCtrl', function($scope, $timeout, CorrectionDetector, RandSentPicker) {
+
+       $scope.orig_words = [];
+       $scope.rev_text = "";
+       $scope.chunks = [];
+       $scope.busy_editing = false;
+
+       $scope.last_changed = Date.now();
+
+       $scope.still_running_procs = 0
+
+       $scope.ResetDetectionResult = function() {
+	 $scope.chunks = [["Connecting to a slow remote server to calculate...", null, null]];
+	 $scope.still_running_procs ++;
+	 CorrectionDetector.DetectChunks(
+	   $scope.orig_words,
+	   $scope.rev_text,
+	   function(chks) {
+	       -- $scope.still_running_procs;
+	     if ($scope.still_running_procs == 0) {
+	       $scope.chunks = chks;
+	     }
+	   });
+       };
+
+       $scope.RevisionChanged = function() {
+	 //	$scope.ResetDetectionResult();
+	 var cur_time = Date.now();
+	 $scope.busy_editing = ((cur_time - $scope.last_changed) < 1000);
+	 $scope.last_changed = cur_time;
+       }
+
+       $scope.Initialize = function() {
+	 $scope.orig_words = ["This", "sentense", "might", "have", "contain", "error", "."];
+	 $scope.rev_text = $scope.orig_words.join(" ");
+	 $scope.chunks = [["Please revise the sentence above to activate this demo.", null, null]];
+       };
+
+       $scope.ResetSentence = function() {
+	 $scope.orig_words = RandSentPicker.PickRandomSentence();
+	 $scope.rev_text = $scope.orig_words.join(" ");
+	 $scope.ResetDetectionResult();
+       };
+
+       $scope.Initialize();
+
+       interval_func = function() {
+	 $timeout(function() {
+	   now_time = Date.now();
+	   if (now_time - $scope.last_changed <= 1000) {
+	     $scope.ResetDetectionResult();
+	   }
+	   interval_func();
+	 }, 1000);
+       }
+       interval_func();
+
+     });
+    </script>
+
+
+    <style>
+     .mistake {
+       text-decoration: line-through;
+       color: red;
+     }
+     .correction {
+       color: green;
+     }
+     .errortype {
+       color:blue;font-size:70%;
+     }
+    </style>
+
+  </head>
+
+  <body>
+    
+    <div class="container starter-template" ng-app="corr_det_app" ng-controller="CorrDetCtrl"  id="correction_detector">
+      <h1>Correction Detector (<a href="https://github.com/xuehuichao/correction_detector">on github</a>)</h1>
+      <p class="lead">Try correct the sentence below <a ng-click="ResetSentence()">(Try another).</a><br/><br />
+	<textarea ng-model="rev_text" rows="2" style="font-size:150%;width:70%" ng-change="RevisionChanged()"></textarea> <br/>
+      </p>
+      <p class="lead">Now, what errors have been corrected? And how?</p>
+      <div style="border:1px solid green;font-size:200%;width:70%;margin:0 auto;text-align:left;padding: 20px 20px;background-color:white;">
+	<span ng-repeat="chunk in chunks">
+	  <span ng-if="!!!chunk[2]">{{chunk[0]}}</span>
+	  <span ng-if="!!chunk[2]">
+	    <span class="mistake">{{chunk[0]}}</span>
+	    <span class="correction">{{chunk[1]}}</span>
+	    <span class="errortype">({{chunk[2]}})</span>
+	  </span>
+	</span>
+      </div>
+      <br />
+    </div>
+
+  </body>
+</html>
