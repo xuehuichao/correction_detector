@@ -106,6 +106,7 @@ construct_editdistalign(int size1, long* array1,
     PyObject* choice_tuple = Py_BuildValue(
         "(ii)", cur_best_choice->cur_char_1, cur_best_choice->cur_char_2);
     PyList_Append(return_list, choice_tuple);
+    Py_DECREF(choice_tuple);
     cur_x = cur_best_choice->prev_x;
     cur_y = cur_best_choice->prev_y;
   }
