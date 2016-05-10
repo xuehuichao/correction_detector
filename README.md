@@ -15,20 +15,20 @@ $ docker run -d -p 8085:8085 xuehuichao/correction_detector
 
 ### Usage
 
-Compare two sentences with a json-rpc request. The server will respond with how many corrections were made, and the revision types.
+Compare two sentences with a JSON-RPC request. The server will respond with invidual corrections (e.g. <del>error</del>errors), and their types (e.g. spelling error).
 ```sh
 $ curl --data-binary '{"params" : ["This sentence might have contain error.", "This sentence might have some errors."], "id" : 0, "jsonrpc" : "2.0", "method" : "CorrDet"}' -H 'content-type:text/plain;' http://127.0.0.1:8085
 
 {"jsonrpc": "2.0", "result": [["This sentence might have", null, null], ["contain", "some", "needs replacing"], ["error", "errors", "wrong noun form"], [".", null, null]], "id": 0}
 ```
 
-You may also experience the demo above on your local machine, by opening `demo.html` in your faviorate browser.
+You may also play the demo above on your local machine, by opening `demo.html` in your faviorate browser.
 
 
 ## Intro
 
 
-My algorithm compares an input sentence with its revision and figure out what errors have been corrected. We described the system in our [ACL 2014's paper](http://acl2014.org/acl2014/P14-2/pdf/P14-2098.pdf). Our system improved over a previous system by Swanson and Yamagil (2012).
+My algorithm compares an input sentence with its revision and figure out what errors have been corrected. We described the system in our [ACL 2014's paper](http://acl2014.org/acl2014/P14-2/pdf/P14-2098.pdf). Our system improved over a previous system by Swanson and Yamagil (2012). The major technical improvement is in determining if two word edits are fixing the same error, which turns out to be one key decision.
 
 The detector was described in our paper in ACL 2014. Please feel free to use the following citation information:
 
