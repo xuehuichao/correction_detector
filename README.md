@@ -15,7 +15,7 @@ $ docker run -d -p 8085:8085 xuehuichao/correction_detector
 
 ### Usage
 
-Compare two sentences with a JSON-RPC request. The server will respond with invidual corrections (e.g. <del>error</del>errors), and their types (e.g. spelling error).
+Compare two sentences with a JSON-RPC request. The server will respond with invidual corrections (e.g. <del>error</del> *into* errors), and their types (e.g. spelling error).
 ```sh
 $ curl --data-binary '{"params" : ["This sentence might have contain error.", "This sentence might have some errors."], "id" : 0, "jsonrpc" : "2.0", "method" : "CorrDet"}' -H 'content-type:text/plain;' http://127.0.0.1:8085
 
@@ -28,7 +28,7 @@ You may also play the demo above on your local machine, by opening `demo.html` i
 ## Intro
 
 
-My algorithm compares an input sentence with its revision and figure out what errors have been corrected. We described the system in our [ACL 2014's paper](http://acl2014.org/acl2014/P14-2/pdf/P14-2098.pdf). Our system improved over a previous system by Swanson and Yamagil (2012). The major technical improvement is in determining if two word edits are fixing the same error, which turns out to be one key decision.
+My algorithm compares an input sentence with its revision and figure out what errors have been corrected. We described the system in our [ACL 2014's paper](http://acl2014.org/acl2014/P14-2/pdf/P14-2098.pdf). Our system improved over a previous system by Swanson and Yamagil (2012). Our major technical improvement is in determining if several word edits are fixing one error. For example, if *to change* is revised into *changing*, then it is fixing one verb tense error; but when *change to* is revised into *changing*, then it may be fixing two errors, a verb tense, and a preposition usage. This subtle difference  turned out to be one key decision in the full algorithm.
 
 The detector was described in our paper in ACL 2014. Please feel free to use the following citation information:
 
